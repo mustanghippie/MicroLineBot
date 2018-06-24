@@ -20,8 +20,6 @@ class LinebotController < ApplicationController
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
-		logger.debug("Body --- "+body)
-		logger.debug("Signature --- "+signature)
 		unless client.validate_signature(body, signature)
 			#error 400 do 'Bad request' end
 			#例外処理にした方が良い気がする
@@ -31,7 +29,7 @@ class LinebotController < ApplicationController
 		logger.debug("パス-----");
 
 		events = client.parse_events_from(body)
-
+		logger.debug("イベント --- "+events)
 		events.each { |event|
 			case event
 			when Line::Bot::Event::Message
