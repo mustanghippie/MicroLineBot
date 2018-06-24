@@ -29,8 +29,9 @@ class LinebotController < ApplicationController
 		logger.debug("パス-----");
 
 		events = client.parse_events_from(body)
-		logger.debug(events)
+
 		events.each { |event|
+			logger.debug("イベント"+event)
 			case event
 			when Line::Bot::Event::Message
 				case event.type
