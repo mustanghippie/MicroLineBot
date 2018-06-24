@@ -2,8 +2,8 @@ class SampleController < ApplicationController
   require 'logger'
   def index
   	logger1 = Logger.new(STDERR)
-  	logger1.debug('ログ1')
-  	redirect_to :action => 'error_screen'
+  	logger1.debug('デプロイチェック')
+  	#redirect_to :action => 'error_screen'
   end
 
   def error_screen
