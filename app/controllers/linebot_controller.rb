@@ -26,16 +26,19 @@ class LinebotController < ApplicationController
 			redirect_to controller: :sample, action: :error_screen
 			exit
 		end
-		logger.debug("パス-----");
+		#logger.debug("パス-----");
 
 		events = client.parse_events_from(body)
 
 		events.each { |event|
 			case event
 			when Line::Bot::Event::Message
-				logger.debug(event.type)
 				case event.type
 				when Line::Bot::Event::MessageType::Text
+					case event.message['text']
+					when '予定'
+						logger.debug('予定')
+					end
 					message = {
 						type: 'text',
 						text: event.message['text']
