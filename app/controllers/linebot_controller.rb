@@ -24,7 +24,9 @@ class LinebotController < ApplicationController
 			#error 400 do 'Bad request' end
 			#例外処理にした方が良い気がする
 			redirect_to controller: :sample, action: :error_screen
+			exit
 		end
+		#logger.debug("パス-----");
 
 		events = client.parse_events_from(body)
 
@@ -33,7 +35,10 @@ class LinebotController < ApplicationController
 			when Line::Bot::Event::Message
 				case event.type
 				when Line::Bot::Event::MessageType::Text
-					logger.debug('DEBUG-Message-type-text');
+					case event.message['text']
+					when '予定' #GoogleCalendar
+						logger.debug('予定')
+					end
 					message = {
 						type: 'text',
 						text: event.message['text']
