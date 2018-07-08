@@ -9,7 +9,7 @@
 /test/tmp/
 /test/version_tmp/
 /tmp/
-
+.DS_Store
 # Used by dotenv library to load environment variables.
 # .env
 
@@ -72,3 +72,7 @@ build-iPhoneSimulator/
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+#Google calendar v3
+client_secrets.json
+token.yaml
+setting.yaml
