@@ -38,6 +38,8 @@ class LinebotController < ApplicationController
 					case event.message['text']
 					when '予定' #GoogleCalendar
 						logger.debug('予定')
+					when '天気' #Weather hacks
+						logger.debug('天気')
 					end
 					message = {
 						type: 'text',
