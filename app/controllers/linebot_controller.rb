@@ -2,6 +2,7 @@ class LinebotController < ApplicationController
 	require 'logger'
 	require 'line/bot' # gem 'line-bot-api'
 	require 'google_api_calendar_v3'
+	require 'weather_forecast'
 
 	# error_log
 	logger = Logger.new(STDERR)
@@ -18,6 +19,7 @@ class LinebotController < ApplicationController
 
 	def callback
 		calendar = Calendar.new
+		forecast = WeatherForecast.new
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -37,12 +39,14 @@ class LinebotController < ApplicationController
 				when Line::Bot::Event::MessageType::Text
 					case event.message['text']
 					when '予定' #GoogleCalendar
-						#予定を取得
-						logger.debug("Line bot calendar")
-
 						message = {
 							type: 'text', 
 							text: calendar.get_schedule
+						}
+					when '天気' #天気予報
+						message = {
+							type: 'text', 
+							text: forecast.get_weather
 						}
 					else
 						message = {
