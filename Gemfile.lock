@@ -102,6 +102,7 @@ GEM
       os (~> 0.9)
       signet (~> 0.7)
     httpclient (2.8.3)
+
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
@@ -118,6 +119,7 @@ GEM
     logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
+
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
