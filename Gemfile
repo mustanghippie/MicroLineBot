@@ -20,8 +20,15 @@ gem 'uglifier', '>= 1.3.0'
 
 # line-bot-api
 gem 'line-bot-api'
+
+# redis
+gem 'redis'
+gem 'redis-rails'
+
 #dotenv-rails
 gem 'dotenv-rails'
+#Google api client
+gem 'google-api-client', '~> 0.11'
 
 
 # Use CoffeeScript for .coffee assets and views

@@ -1,6 +1,7 @@
 class LinebotController < ApplicationController
 	require 'logger'
 	require 'line/bot' # gem 'line-bot-api'
+	require 'google_api_calendar_v3'
 
 	# error_log
 	logger = Logger.new(STDERR)
@@ -16,7 +17,7 @@ class LinebotController < ApplicationController
 	end
 
 	def callback
-
+		calendar = Calendar.new
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -26,7 +27,6 @@ class LinebotController < ApplicationController
 			redirect_to controller: :sample, action: :error_screen
 			exit
 		end
-		#logger.debug("パス-----");
 
 		events = client.parse_events_from(body)
 
@@ -37,14 +37,20 @@ class LinebotController < ApplicationController
 				when Line::Bot::Event::MessageType::Text
 					case event.message['text']
 					when '予定' #GoogleCalendar
-						logger.debug('予定')
-					when '天気' #Weather hacks
-						logger.debug('天気')
-					end
-					message = {
+						#予定を取得
+						logger.debug("Line bot calendar")
+
+						message = {
+							type: 'text', 
+							text: calendar.get_schedule
+						}
+					else
+						message = {
 						type: 'text',
 						text: event.message['text']
 					}
+					end
+					
 					client.reply_message(event['replyToken'], message)
 				end
 			end
