@@ -1,5 +1,5 @@
 =begin
-  Livedoorが提供するお天気情報 weather hacksを使って本日の天気予報を取得する。
+  Livedoorが提供するお天気情報 weather hacksを使って本日と明日の天気予報を取得する。
 =end
 class WeatherForecast
   require 'net/http'
@@ -10,26 +10,32 @@ class WeatherForecast
     uri = URI.parse('http://weather.livedoor.com/forecast/webservice/json/v1?city=230010')
     json = Net::HTTP.get(uri)
     result = JSON.parse(json)
+    message = ''
+    # 0=>今日 1=>明日
+    (0..1).each{|num|
+      # 今日と明日
+      $date = result['forecasts'][num]['dateLabel']
+      # 晴れや曇時々晴等の情報
+      $telop = result['forecasts'][num]['telop']
+      # 最低気温
+      unless result['forecasts'][num]['temperature']['min'].nil?
+         $temperature_min = '最低気温は' + result['forecasts'][num]['temperature']['min']['celsius'] + "℃\n"
+      else
+        $temperature_min = ''
+      end
+      # 最高気温
+      unless result['forecasts'][num]['temperature']['max'].nil?
+        $temperature_max = '最高気温は' + result['forecasts'][num]['temperature']['max']['celsius'] + "℃\n"
+      else
+        $temperature_max = ''
+      end
 
-    # 今日か明日
-    date = result['forecasts'][0]['dateLabel']
-    # 晴れや曇時々晴等の情報
-    telop = result['forecasts'][0]['telop']
-    # 最低気温
-    unless result['forecasts'][0]['temperature']['min'].nil?
-       temperature_min = '最低気温は' + result['forecasts'][0]['temperature']['min']['celsius'] + '℃です。'
-    else
-      temperature_min = ''
-    end
-    # 最高気温
-    unless result['forecasts'][0]['temperature']['max'].nil?
-      temperature_max = '最高気温は' + result['forecasts'][0]['temperature']['max']['celsius'] + '℃です。'
-    else
-      temperature_max = ''
-    end
-    # 天気予報サイトへのリンク  
-    forecast_link = result['pinpointLocations'][20]['link']
+      message += "#{$date}の天気は#{$telop}だよ。\n#{$temperature_min}#{$temperature_max}"
+    }
+    
+    # 天気予報サイトへのリンクを追加 
+    message += "\n詳しくはリンク先を見てね\n" + result['pinpointLocations'][20]['link']
     # 天気予報情報
-    message = "#{date}の天気は#{telop}です。\n#{temperature_min}\n#{temperature_max}\n詳しくはこちら：#{forecast_link}"
+    message
   end
 end
