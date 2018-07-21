@@ -13,7 +13,6 @@ class Calendar
   APPLICATION_NAME = 'MicroLineBot'.freeze
   # ローカル環境でしか使わない 本番では環境変数から取得する
   CLIENT_SECRETS_PATH = 'client_secrets.json'.freeze
-  CREDENTIALS_PATH = 'token.yaml'.freeze
   SCOPE = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
   
 
@@ -58,15 +57,15 @@ class Calendar
     logger = Logger.new(STDERR)
     unless ENV['RAILS_ENV'] == 'production'
       client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-      code = YAML.load_file('setting.yaml')
+      code = YAML.load_file('setting_calendar.yaml')
       code = code['code']
       #herokuファイルだと消えるからRedis使う
       #token_store = Google::Auth::Stores::FileTokenStore.new(file: CREDENTIALS_PATH)
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new) 
     else
-      client_secrets = JSON.parse(ENV["CLIENT_ID_CALENDAR"])
+      client_secrets = JSON.parse(ENV["CLIENT_SECRETS_GOOGLE_API"])
       client_id = Google::Auth::ClientId.from_hash(client_secrets)
-      code = ENV['AUTHORIZETION_CODE']
+      code = ENV['AUTHORIZETION_CODE_GOOGLE_CALENDAR']
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new(url: ENV['REDIS_URL'])) 
     end
 
