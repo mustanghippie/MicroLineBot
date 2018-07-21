@@ -3,9 +3,10 @@ class LinebotController < ApplicationController
 	require 'line/bot' # gem 'line-bot-api'
 	require 'google_api_calendar_v3'
 	require 'weather_forecast'
+	require 'google_api_drive'
 
 	# error_log
-	logger = Logger.new(STDERR)
+	$logger = Logger.new(STDERR)
 
 	# callbackアクションのCSRFトークン認証を無効
 	protect_from_forgery :expect => [:callback]
@@ -20,6 +21,7 @@ class LinebotController < ApplicationController
 	def callback
 		calendar = Calendar.new
 		forecast = WeatherForecast.new
+		google_drive = GoogleDrive.new
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -47,6 +49,11 @@ class LinebotController < ApplicationController
 						message = {
 							type: 'text', 
 							text: forecast.get_weather
+						}
+					when '新着' # Google Driveの共有ディレクトリ
+						message = {
+							type: 'text', 
+							text: google_drive.get_drive
 						}
 					else
 						message = {

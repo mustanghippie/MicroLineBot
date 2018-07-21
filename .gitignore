@@ -76,3 +76,4 @@ build-iPhoneSimulator/
 client_secrets.json
 token.yaml
 setting.yaml
+setting_drive.yaml
