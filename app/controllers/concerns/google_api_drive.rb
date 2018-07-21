@@ -5,7 +5,6 @@ class GoogleDrive
   require 'googleauth/stores/file_token_store'
   require 'fileutils'
   require 'redis'
-  require 'logger'
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'MicroLineBot'.freeze
@@ -14,7 +13,6 @@ class GoogleDrive
   SCOPE = Google::Apis::DriveV3::AUTH_DRIVE_METADATA_READONLY
   #SCOPE = Google::Apis::DriveV3::AUTH_DRIVE_FILE
   $redis = Redis.new
-  $logger = Logger.new(STDERR)
 
   def get_drive
 
@@ -42,7 +40,7 @@ class GoogleDrive
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new)
     else
       # 環境変数名がカレンダーのものになっているので、共通の名前に後で変える
-      client_secrets = JSON.parse(ENV["CLIENT_ID_CALENDAR"])
+      client_secrets = JSON.parse(ENV["CLIENT_SECRETS_GOOGLE_API"])
       client_id =  Google::Auth::ClientId.from_hash(client_secrets)
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new(url: ENV['REDIS_URL'])) 
     end
