@@ -25,11 +25,12 @@ gem 'line-bot-api'
 gem 'redis'
 gem 'redis-rails'
 
-#dotenv-rails
+# dotenv-rails
 gem 'dotenv-rails'
-#Google api client
+# Google api client
 gem 'google-api-client', '~> 0.11'
-
+# Picasa Web Album Data API
+gem 'picasa'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
