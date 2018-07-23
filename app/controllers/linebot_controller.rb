@@ -6,9 +6,6 @@ class LinebotController < ApplicationController
 	require 'google_api_drive'
 	require 'google_api_photo'
 
-	# error_log
-	$logger = Logger.new(STDERR)
-
 	# callbackアクションのCSRFトークン認証を無効
 	protect_from_forgery :expect => [:callback]
 
@@ -58,7 +55,7 @@ class LinebotController < ApplicationController
 							text: google_drive.get_drive
 						}
 					when '犬'
-						image_url = google_photo.get_random_photo
+						image_url = google_photo.get_random_photo_url
 						message = {
 							type: 'image',
 							originalContentUrl: image_url, 
