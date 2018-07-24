@@ -4,9 +4,7 @@ class LinebotController < ApplicationController
 	require 'google_api_calendar_v3'
 	require 'weather_forecast'
 	require 'google_api_drive'
-
-	# error_log
-	$logger = Logger.new(STDERR)
+	require 'google_api_photo'
 
 	# callbackアクションのCSRFトークン認証を無効
 	protect_from_forgery :expect => [:callback]
@@ -22,6 +20,7 @@ class LinebotController < ApplicationController
 		calendar = Calendar.new
 		forecast = WeatherForecast.new
 		google_drive = GoogleDrive.new
+		google_photo = GooglePhoto.new
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -55,10 +54,17 @@ class LinebotController < ApplicationController
 							type: 'text', 
 							text: google_drive.get_drive
 						}
+					when '犬'
+						image_url = google_photo.get_random_photo_url
+						message = {
+							type: 'image',
+							originalContentUrl: image_url, 
+							previewImageUrl: image_url
+					}
 					else
 						message = {
-						type: 'text',
-						text: event.message['text']
+							type: 'text',
+							text: event.message['text']
 					}
 					end
 					
