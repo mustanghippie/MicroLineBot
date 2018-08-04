@@ -76,5 +76,11 @@ build-iPhoneSimulator/
 client_secrets.json
 token.yaml
 setting_calendar.yaml
+<<<<<<< HEAD
+setting_gdrive.yaml
+setting_photo.yaml
+setting_line_channel.yaml
+=======
 setting_drive.yaml
 setting_photo.yaml
+>>>>>>> master

@@ -13,11 +13,13 @@ class SampleController < ApplicationController
     weatherForecast = WeatherForecast.new
     gDrive = GoogleDrive.new
     gPhoto = GooglePhoto.new
-    @result = gPhoto.get_random_photo_url
-    
+    @result_url = gPhoto.get_random_photo_url
+    @result = gDrive.get_new_files
     #client.album.list
     #@result = gDrive.get_drive
     #@result = calendar.get_schedule
     #@result = weatherForecast.get_weather
   end
+
+
 end
