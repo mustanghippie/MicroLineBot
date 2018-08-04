@@ -17,7 +17,7 @@ class LinebotController < ApplicationController
 	end
 
 	def callback
-		calendar = Calendar.new
+		calendar = GoogleCalendar.new
 		forecast = WeatherForecast.new
 		google_drive = GoogleDrive.new
 		google_photo = GooglePhoto.new
@@ -52,7 +52,7 @@ class LinebotController < ApplicationController
 					when '新着' # Google Driveの共有ディレクトリ
 						message = {
 							type: 'text', 
-							text: google_drive.get_drive
+							text: google_drive.get_new_files
 						}
 					when '今日のワンコ'
 						image_url = google_photo.get_random_photo_url

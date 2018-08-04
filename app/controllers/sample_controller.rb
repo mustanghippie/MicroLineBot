@@ -9,12 +9,14 @@ class SampleController < ApplicationController
 
   def index
   	logger = Logger.new(STDERR)
-    calendar = Calendar.new
-    weatherForecast = WeatherForecast.new
-    gDrive = GoogleDrive.new
-    gPhoto = GooglePhoto.new
-    @result_url = gPhoto.get_random_photo_url
-    @result = gDrive.get_new_files
+    #calendar = GoogleCalendar.new
+    #weatherForecast = WeatherForecast.new
+    #gDrive = GoogleDrive.new
+    #gPhoto = GooglePhoto.new
+    #@result = calendar.get_schedule
+
+    #@result_url = gPhoto.get_random_photo_url
+    #@result = gDrive.get_new_files
     #client.album.list
     #@result = gDrive.get_drive
     #@result = calendar.get_schedule
