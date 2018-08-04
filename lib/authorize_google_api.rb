@@ -1,5 +1,6 @@
 class AuthorizeGoogleApi
   require 'google/apis/drive_v3'
+  require 'google/apis/calendar_v3'
   require 'googleauth'
   require 'googleauth/stores/redis_token_store'
   require 'redis'
@@ -7,12 +8,15 @@ class AuthorizeGoogleApi
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'MicroLineBot'.freeze
   CLIENT_SECRETS_PATH = 'client_secrets.json'.freeze
-  SCOPE = Google::Apis::DriveV3::AUTH_DRIVE_METADATA_READONLY
 
   def initialize(service_name)
     case service_name
     when 'gdrive'
       @service = Google::Apis::DriveV3::DriveService.new
+      @scope = Google::Apis::DriveV3::AUTH_DRIVE_METADATA_READONLY
+    when 'gcalendar'
+      @service = Google::Apis::CalendarV3::CalendarService.new
+      @scope = Google::Apis::CalendarV3::AUTH_CALENDAR_READONLY
     end
 
     @service.client_options.application_name = APPLICATION_NAME
@@ -35,7 +39,7 @@ class AuthorizeGoogleApi
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: Redis.new(url: ENV['REDIS_URL'])) 
     end
 
-    authorizer = Google::Auth::UserAuthorizer.new(client_id, SCOPE, token_store)
+    authorizer = Google::Auth::UserAuthorizer.new(client_id, @scope, token_store)
     user_id = service_name
     credentials = authorizer.get_credentials(user_id)
 
@@ -47,7 +51,12 @@ class AuthorizeGoogleApi
         code = YAML.load_file("setting_#{service_name}.yaml")
         code = code['code']
       else
-        code = ENV['AUTHORIZETION_CODE_GOOGLE_DRIVE']
+        case service_name
+        when 'gdrive'
+          code = ENV['AUTHORIZETION_CODE_GOOGLE_DRIVE']
+        when 'gcalendar'
+          code = ENV['AUTHORIZETION_CODE_GOOGLE_CALENDAR']
+        end
       end
       
       credentials = authorizer.get_and_store_credentials_from_code(
