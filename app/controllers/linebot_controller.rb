@@ -54,11 +54,7 @@ class LinebotController < ApplicationController
 							type: 'text', 
 							text: google_drive.get_drive
 						}
-<<<<<<< HEAD
 					when '今日のワンコ'
-=======
-					when '犬'
->>>>>>> master
 						image_url = google_photo.get_random_photo_url
 						message = {
 							type: 'image',
