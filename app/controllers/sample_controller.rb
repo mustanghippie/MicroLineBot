@@ -1,15 +1,8 @@
 class SampleController < ApplicationController
-  require 'logger'
-  require 'google_api_calendar_v3'
-  require 'redis'
-  require 'weather_forecast'
-  require 'google_api_drive'
-  require 'google_api_photo'
-  require 'picasa'
-  require 'linebot_push_message'
+  #require 'logger'
   
   def index
-  	logger = Logger.new(STDERR)
+  	#logger = Logger.new(STDERR)
     #users = User.all
     #push = LinebotPushMessage.new.send_message('配信テスト')
 
@@ -34,6 +27,4 @@ class SampleController < ApplicationController
     #@result = calendar.get_schedule
     #@result = weatherForecast.get_weather
   end
-
-
 end

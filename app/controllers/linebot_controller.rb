@@ -1,5 +1,4 @@
 class LinebotController < ApplicationController
-	require 'logger'
 	require 'line/bot' # gem 'line-bot-api'
 	require 'google_api_calendar_v3'
 	require 'weather_forecast'
