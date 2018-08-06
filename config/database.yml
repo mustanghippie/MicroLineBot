@@ -11,7 +11,12 @@ default: &default
 
 development:
   <<: *default
-  database: db/development.sqlite3
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  database: psgr_db
+  username: postgres
+  password: postgres
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -21,7 +26,4 @@ test:
   database: db/test.sqlite3
 
 production:
-  <<: *default
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
+  url: <%= ENV['DATABASE_URL'] %>
