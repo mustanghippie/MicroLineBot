@@ -1,5 +1,5 @@
 class GoogleCalendar
-  
+  require 'authorize_google_api'
   def initialize()
     @service = AuthorizeGoogleApi.new('gcalendar').get_service
     @scheduleList = ''
@@ -30,7 +30,7 @@ class GoogleCalendar
                                time_max: end_date.to_time.iso8601,
                                time_min: start_date.to_time.iso8601)
     if response.items.empty?
-      @scheduleList += "#{date}の予定はないよ"
+      @scheduleList += "#{date}の予定はないよ\n"
     else
       @scheduleList += "#{date}の予定は\n"
     end

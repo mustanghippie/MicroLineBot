@@ -1,11 +1,10 @@
 class SampleController < ApplicationController
-  #require 'logger'
-  
+  require 'google_api_calendar_v3'
   def index
   	#logger = Logger.new(STDERR)
     #users = User.all
     #push = LinebotPushMessage.new.send_message('配信テスト')
-
+    #tga = TestGoogleApis.new
     #puts sample
     #render 'sample/index'
     #sample.name = 'test1'
