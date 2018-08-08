@@ -31,6 +31,8 @@ gem 'dotenv-rails'
 gem 'google-api-client', '~> 0.11'
 # Picasa Web Album Data API
 gem 'picasa'
+# RSpec
+gem 'rspec-rails'
 
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
