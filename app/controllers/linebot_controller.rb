@@ -16,10 +16,6 @@ class LinebotController < ApplicationController
 	end
 
 	def callback
-		calendar = GoogleCalendar.new
-		forecast = WeatherForecast.new
-		google_drive = GoogleDrive.new
-		google_photo = GooglePhoto.new
 		body = request.body.read
 
 		signature = request.env['HTTP_X_LINE_SIGNATURE']
@@ -39,21 +35,25 @@ class LinebotController < ApplicationController
 				when Line::Bot::Event::MessageType::Text
 					case event.message['text']
 					when '予定' #GoogleCalendar
+						google_calendar = GoogleCalendar.new
 						message = {
 							type: 'text', 
-							text: calendar.get_schedule
+							text: google_calendar.get_schedule
 						}
 					when '天気' #天気予報
+						forecast = WeatherForecast.new
 						message = {
 							type: 'text', 
 							text: forecast.get_weather
 						}
 					when '新着' # Google Driveの共有ディレクトリ
+						google_drive = GoogleDrive.new
 						message = {
 							type: 'text', 
 							text: google_drive.get_new_files
 						}
-					when '今日のワンコ'
+					when '今日のわんこ'
+						google_photo = GooglePhoto.new
 						image_url = google_photo.get_random_photo_url
 						message = {
 							type: 'image',

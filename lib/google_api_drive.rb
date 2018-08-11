@@ -4,7 +4,7 @@ class GoogleDrive
 
   def initialize()
     # GoogleDrive Oauth auzhorize
-    @service = AuthorizeGoogleApi.new('gdrive').get_service
+    @service = AuthorizeGoogleApi.new('google_drive').get_service
     @redis = Redis.new
   end
 

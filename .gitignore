@@ -74,8 +74,4 @@ build-iPhoneSimulator/
 
 #Google calendar v3
 client_secrets.json
-token.yaml
-setting_gcalendar.yaml
-setting_gdrive.yaml
-setting_photo.yaml
-setting_line_channel.yaml
+linebot_setting_file.yaml
