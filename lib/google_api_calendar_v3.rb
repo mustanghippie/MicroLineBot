@@ -1,7 +1,7 @@
 class GoogleCalendar
   require 'authorize_google_api'
   def initialize()
-    @service = AuthorizeGoogleApi.new('gcalendar').get_service
+    @service = AuthorizeGoogleApi.new('google_calendar').get_service
     @scheduleList = ''
   end
 
