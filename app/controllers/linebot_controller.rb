@@ -63,6 +63,11 @@ class LinebotController < ApplicationController
 					}
 					when '登録'
 						user_registration = UserRegistration.new(event)
+						result_registration_message = user_registration.regster_user
+						message = {
+							type: 'text', 
+							text: result_registration_message
+						}
 					else
 						message = {
 							type: 'text',

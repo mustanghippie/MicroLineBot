@@ -14,16 +14,16 @@ class SampleController < ApplicationController
     #sample.name = 'test1'
     #sample.save
 
+    # modelからデータ取得して表示
+    #pp User.all
+
     #list = sample.find([1, 2])
     #puts list
     #render 'sample/'
     #calendar = GoogleCalendar.new
     #weatherForecast = WeatherForecast.new
     #gDrive = GoogleDrive.new
-    gPhoto = GooglePhoto.new
-    test = {"type"=>"message", "replyToken"=>"570c60ce4afe4fb89b7484847df7a488", "source"=>{"userId"=>"U9f23546f0335cd766b54857dd77a5aae", "type"=>"user"}, "timestamp"=>1534044718794, "message"=>{"type"=>"text", "id"=>"8406128634484", "text"=>"登録"}}
-    puts test['message']
-    puts test['source']
+    #gPhoto = GooglePhoto.new
     #@result = gPhoto.get_album_list
     #@result = gPhoto.get_random_photo_url
     #@result_url = gPhoto.get_random_photo_url
