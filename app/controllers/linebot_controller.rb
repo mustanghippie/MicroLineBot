@@ -4,6 +4,7 @@ class LinebotController < ApplicationController
 	require 'weather_forecast'
 	require 'google_api_drive'
 	require 'google_api_photo'
+	require 'user_registration'
 
 	# callbackアクションのCSRFトークン認証を無効
 	protect_from_forgery :expect => [:callback]
@@ -60,6 +61,8 @@ class LinebotController < ApplicationController
 							originalContentUrl: image_url, 
 							previewImageUrl: image_url
 					}
+					when '登録'
+						user_registration = UserRegistration.new(event)
 					else
 						message = {
 							type: 'text',
