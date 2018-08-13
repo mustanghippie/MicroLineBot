@@ -6,17 +6,9 @@ class LinebotPushMessage
       type: 'text',
       text: message_text
     }
-
-    unless ENV['RAILS_ENV'] == 'production'
-      setting_channel = YAML.load_file("setting_line_channel.yaml")
-
-      users = User.select(:uid)
-      setting_channel = YAML.load_file("setting_line_channel.yaml")
-      setting_channel = {channel_secret: setting_channel['LINE_CHANNEL_SECRET'], channel_token: setting_channel['LINE_CHANNEL_TOKEN']}
-    else
-      setting_channel = {channel_secret: ENV['LINE_CHANNEL_SECRET'], channel_token: ENV['LINE_CHANNEL_TOKEN']}
-      users = User.select(:uid)
-    end
+    
+    setting_channel = {channel_secret: ENV['LINE_CHANNEL_SECRET'], channel_token: ENV['LINE_CHANNEL_TOKEN']}
+    users = User.select(:uid)
 
     client = Line::Bot::Client.new { |config|
       config.channel_secret = setting_channel[:channel_secret]

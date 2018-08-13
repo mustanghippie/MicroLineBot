@@ -5,8 +5,6 @@ class UserRegistration
   def initialize(event)
     return if event.nil?
     @event = event
-    logger = Logger.new(STDERR)
-    line_user_id = event['source']['userId']
   end
 
   def get_user_id
@@ -14,11 +12,8 @@ class UserRegistration
   end
 
   def get_user_name
-    unless ENV['RAILS_ENV'] == 'production'
-      line_channel_token = YAML.load_file('linebot_setting_file.yaml')['line_channel_token']
-    else
-      line_channel_token = ENV['LINE_CHANNEL_TOKEN']
-    end
+    line_channel_token = ENV['LINE_CHANNEL_TOKEN']
+
     uri = URI.parse("https://api.line.me/v2/bot/profile/U9f23546f0335cd766b54857dd77a5aae")
     request = Net::HTTP::Get.new(uri)
     request["Authorization"] = "Bearer #{line_channel_token}"
