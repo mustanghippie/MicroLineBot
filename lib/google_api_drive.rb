@@ -5,11 +5,11 @@ class GoogleDrive
   def initialize()
     # GoogleDrive Oauth auzhorize
     @service = AuthorizeGoogleApi.new('google_drive').get_service
-    @redis = Redis.new
+    @redis = Redis.new(url: ENV['REDIS_URL'])
   end
 
   def get_new_files
-    response = @service.list_files(q: "'0Bx0dyeY_u_LUcmY1eHpJSWhSaG8' in parents",
+    response = @service.list_files(q: "'#{ENV['SHARE_FOLDER_ID']}' in parents",
                                   page_size: 10,
                                   fields: 'nextPageToken, files(id, name)')
     save_new_file_list(response) unless response.files.empty?

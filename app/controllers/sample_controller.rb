@@ -3,39 +3,29 @@ class SampleController < ApplicationController
   require 'google_api_drive'
   require 'google_api_photo'
   require 'user_registration'
+  require 'linebot_push_message'
+  require 'redis'
 
   def index
-  	#logger = Logger.new(STDERR)
-    #users = User.all
-    #push = LinebotPushMessage.new.send_message('配信テスト')
-    #tga = TestGoogleApis.new
-    #puts sample
-    #render 'sample/index'
-    #sample.name = 'test1'
-    #sample.save
+    #logger = Logger.new(STDERR)
 
-    # modelからデータ取得して表示
-    #pp User.all
+    # Google Calendar
+    #google_calendar = GoogleCalendar.new
+    #@result = google_calendar.get_schedule
 
-    #list = sample.find([1, 2])
-    #puts list
-    #render 'sample/'
-    #calendar = GoogleCalendar.new
-    #weatherForecast = WeatherForecast.new
-    #gDrive = GoogleDrive.new
-    #gPhoto = GooglePhoto.new
-    #@result = gPhoto.get_album_list
-    #@result = gPhoto.get_random_photo_url
-    #@result_url = gPhoto.get_random_photo_url
-    #@result = calendar.get_schedule
-    #gPhoto.get_images_list
-    #@result_url = gPhoto.get_random_photo_url
-    #@result = gPhoto.get_album_id
-    #@result = gDrive.get_new_files
-    #client.album.list
-    #@result = gDrive.get_drive
-    #@result = calendar.get_schedule
-    #@result = weatherForecast.get_weather
-    #user_registration = UserRegistration.new('テスト')
+    # Google Drive
+    #google_drive = GoogleDrive.new
+  	#@result = google_drive.get_new_files
+
+    # Google Photo
+    #google_photo = GooglePhoto.new
+    #@result = google_photo.get_random_photo_url
+    #@result_url = google_photo.get_random_photo_url
+
+    # LINE push message
+    #linebot_push_message = LinebotPushMessage.new
+    #linebot_push_message.send_message('配信テスト')
+
+    
   end
 end

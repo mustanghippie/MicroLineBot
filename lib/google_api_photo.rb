@@ -34,11 +34,7 @@ class GooglePhoto
   end
 
   def get_images_list
-    unless ENV['RAILS_ENV'] == 'production'
-      album_id = YAML.load_file("linebot_setting_file.yaml")['albnum_id']
-    else
-      album_id = ENV['ALBUM_ID']
-    end
+    album_id = ENV['ALBUM_ID']
     uri = URI.parse("https://photoslibrary.googleapis.com/v1/mediaItems:search")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"

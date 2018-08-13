@@ -10,15 +10,9 @@ class AuthorizeGoogleApi
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'MicroLineBot'.freeze
-  CLIENT_SECRETS_PATH = 'client_secrets.json'.freeze
-  LINEBOT_SETTING_FILE = 'linebot_setting_file.yaml'.freeze
 
   def initialize(service_name)
-    unless ENV['RAILS_ENV'] == 'production'
-      @redis = Redis.new
-    else
       @redis = Redis.new(url: ENV['REDIS_URL'])
-    end
 
     case service_name
     when 'google_drive'
@@ -44,15 +38,9 @@ class AuthorizeGoogleApi
   end
 
   def authorize(service_name)
-    
-    unless ENV['RAILS_ENV'] == 'production'
-      client_id = Google::Auth::ClientId.from_file(CLIENT_SECRETS_PATH)
-      token_store = Google::Auth::Stores::RedisTokenStore.new(redis: @redis)
-    else
       client_secrets = JSON.parse(ENV["CLIENT_SECRETS_GOOGLE_API"])
       client_id =  Google::Auth::ClientId.from_hash(client_secrets)
       token_store = Google::Auth::Stores::RedisTokenStore.new(redis: @redis)
-    end
 
     authorizer = Google::Auth::UserAuthorizer.new(client_id, @scope, token_store)
     user_id = service_name
@@ -62,12 +50,7 @@ class AuthorizeGoogleApi
       url = authorizer.get_authorization_url(base_url: OOB_URI)
       puts 'Open the following URL in the browser and enter the ' \
            "resulting code after authorization:\n" + url
-      unless ENV['RAILS_ENV'] == 'production'
-        code = YAML.load_file("#{LINEBOT_SETTING_FILE}")
-        code = code["#{service_name}"]
-      else
-        code = ENV["AUTHORIZETION_CODE_#{service_name.upcase}"]
-      end
+      code = ENV["AUTHORIZETION_CODE_#{service_name.upcase}"]
       
       credentials = authorizer.get_and_store_credentials_from_code(
         user_id: user_id, code: code, base_url: OOB_URI
