@@ -30,7 +30,8 @@ class GooglePhoto
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-
+    puts response.body
+    response.body
   end
 
   def get_images_list
