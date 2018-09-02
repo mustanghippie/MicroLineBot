@@ -30,7 +30,7 @@ class GooglePhoto
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
-    puts response.body
+    #puts response.body
     response.body
   end
 
@@ -41,8 +41,8 @@ class GooglePhoto
     request.content_type = "application/json"
     request["Authorization"] = "Bearer #{@access_token}"
     request.body = JSON.dump({
-      "pageSize" => "200",
-      "albumId" => album_id
+      "pageSize" => "100",
+      "albumId" => album_id,
     })
 
     req_options = {
@@ -52,6 +52,7 @@ class GooglePhoto
     response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
       http.request(request)
     end
+    #puts "Response body ===  #{response.body}"
     result = JSON.parse(response.body)
     return result['mediaItems'], result['mediaItems'].length
   end
