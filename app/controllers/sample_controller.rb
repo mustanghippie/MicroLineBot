@@ -20,7 +20,7 @@ class SampleController < ApplicationController
     # Google Photo
     #google_photo = GooglePhoto.new
     #@result = google_photo.get_album_list
-    #@result_url = google_photo.get_randomn_photo_url
+    #@result_url = google_photo.get_random_photo_url
 
     # LINE push message
     #linebot_push_message = LinebotPushMessage.new

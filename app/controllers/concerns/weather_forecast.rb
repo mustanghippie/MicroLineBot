@@ -12,25 +12,26 @@ class WeatherForecast
     result = JSON.parse(json)
     message = ''
     # 0=>今日 1=>明日
+    
     (0..1).each{|num|
       # 今日と明日
-      $date = result['forecasts'][num]['dateLabel']
+      date = result['forecasts'][num]['dateLabel']
       # 晴れや曇時々晴等の情報
-      $telop = result['forecasts'][num]['telop']
+      telop = result['forecasts'][num]['telop']
       # 最低気温
       unless result['forecasts'][num]['temperature']['min'].nil?
-         $temperature_min = '最低気温は' + result['forecasts'][num]['temperature']['min']['celsius'] + "℃\n"
+        temperature_min = '最低気温は' + result['forecasts'][num]['temperature']['min']['celsius'] + "℃\n"
       else
-        $temperature_min = ''
+        temperature_min = ''
       end
       # 最高気温
       unless result['forecasts'][num]['temperature']['max'].nil?
-        $temperature_max = '最高気温は' + result['forecasts'][num]['temperature']['max']['celsius'] + "℃\n"
+        temperature_max = '最高気温は' + result['forecasts'][num]['temperature']['max']['celsius'] + "℃\n"
       else
-        $temperature_max = ''
+        temperature_max = ''
       end
 
-      message += "#{$date}の天気は#{$telop}だよ。\n#{$temperature_min}#{$temperature_max}"
+      message += "#{date}の天気は#{telop}だよ。\n#{temperature_min}#{temperature_max}"
     }
     
     # 天気予報サイトへのリンクを追加 
