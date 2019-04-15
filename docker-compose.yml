@@ -4,12 +4,15 @@ services:
     image: redis:5.0.4
     ports:
       - "6379:6379"
+    volumes:
+      - ./redis-data:/data
   db:
     image: postgres:10.4
     ports:
       - "5432:5432"
     volumes:
       - ./postgres/init:/docker-entrypoint-initdb.d
+      - ./pgsql-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -27,7 +30,7 @@ services:
     volumes:
       - .:/app
     environment:
-      RAILS_ENV: development
+      REDIS_URL: redis:redis:6379
     links:
       - db
       - redis

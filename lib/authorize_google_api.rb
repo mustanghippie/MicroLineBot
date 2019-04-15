@@ -7,12 +7,18 @@ class AuthorizeGoogleApi
   require 'net/http'
   require 'uri'
   require 'json'
+  require 'dotenv'
 
   OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
   APPLICATION_NAME = 'MicroLineBot'.freeze
 
   def initialize(service_name)
-      @redis = Redis.new(url: ENV['REDIS_URL'])
+    Dotenv.load
+    if ENV["RAILS_ENV"] == 'production'
+      @redis = Redis.new(url: ENV["REDIS_URL"])
+    elsif ENV["RAILS_ENV"] == 'development'
+      @redis = Redis.new(host: ENV["REDIS_HOST"])
+    end
 
     case service_name
     when 'google_drive'
@@ -38,9 +44,10 @@ class AuthorizeGoogleApi
   end
 
   def authorize(service_name)
-      client_secrets = JSON.parse(ENV["CLIENT_SECRETS_GOOGLE_API"])
-      client_id =  Google::Auth::ClientId.from_hash(client_secrets)
-      token_store = Google::Auth::Stores::RedisTokenStore.new(redis: @redis)
+    
+    client_secrets = JSON.parse(ENV["CLIENT_SECRETS_GOOGLE_API"])
+    client_id =  Google::Auth::ClientId.from_hash(client_secrets)
+    token_store = Google::Auth::Stores::RedisTokenStore.new(redis: @redis)
 
     authorizer = Google::Auth::UserAuthorizer.new(client_id, @scope, token_store)
     user_id = service_name
