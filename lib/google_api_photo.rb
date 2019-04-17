@@ -36,25 +36,36 @@ class GooglePhoto
 
   def get_images_list
     album_id = ENV['ALBUM_ID']
+    images = [] # 写真格納用配列
+    nextPageToken = ""
     uri = URI.parse("https://photoslibrary.googleapis.com/v1/mediaItems:search")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request["Authorization"] = "Bearer #{@access_token}"
-    request.body = JSON.dump({
-      "pageSize" => "100",
-      "albumId" => album_id,
-    })
-
     req_options = {
       use_ssl: uri.scheme == "https",
     }
 
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
+    # 写真を全件取得する(page sizeが100までのため)
+    loop do
+      request.body = JSON.dump({
+        "pageSize" => "100",
+        "albumId" => album_id,
+        "pageToken" => nextPageToken,
+      })
+      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(request)
+      end
+      #puts "Response body ===  #{response.body}"
+      result = JSON.parse(response.body)
+      images = images.concat(result['mediaItems'])
+      nextPageToken = result['nextPageToken']
+      if nextPageToken.nil?
+        break
+      end
     end
-    #puts "Response body ===  #{response.body}"
-    result = JSON.parse(response.body)
-    return result['mediaItems'], result['mediaItems'].length
+    
+    return images, images.length
   end
 
 end

@@ -10,9 +10,9 @@
 /test/version_tmp/
 /tmp/
 .DS_Store
-.env
+
 # Used by dotenv library to load environment variables.
-# .env
+.env
 
 ## Specific to RubyMotion:
 .dat*
@@ -54,6 +54,12 @@ build-iPhoneSimulator/
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
+
+# Ignore postgres database
+/pgsql-data
+
+# Ignore redis data
+/redis-data
 
 # Ignore all logfiles and tempfiles.
 /log/*

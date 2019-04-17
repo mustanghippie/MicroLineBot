@@ -5,7 +5,11 @@ class GoogleDrive
   def initialize()
     # GoogleDrive Oauth auzhorize
     @service = AuthorizeGoogleApi.new('google_drive').get_service
-    @redis = Redis.new(url: ENV['REDIS_URL'])
+    if ENV["RAILS_ENV"] == 'production'
+      @redis = Redis.new(url: ENV["REDIS_URL"])
+    elsif ENV["RAILS_ENV"] == 'development'
+      @redis = Redis.new(host: ENV["REDIS_HOST"])
+    end
   end
 
   def get_new_files
@@ -28,7 +32,7 @@ class GoogleDrive
     # 初回時 or Redisのデータが消えた時用
     if old_file_list.nil? 
       old_file_list = Array.new
-      $redis.set('file', old_file_list)
+      @redis.set('file', old_file_list)
     else 
       old_file_list = JSON.parse(old_file_list)
     end
