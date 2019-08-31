@@ -10,7 +10,7 @@ class SampleController < ApplicationController
   require 'googleauth/stores/redis_token_store'
 
   def index
-    @result = 'sample'
+    @result = 'Sample'
     #config.logger = Logger.new('log/development.log')
 =begin
     @OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze

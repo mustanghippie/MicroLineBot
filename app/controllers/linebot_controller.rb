@@ -77,6 +77,10 @@ class LinebotController < ApplicationController
 					
 					client.reply_message(event['replyToken'], message)
 				end
+			when Line::Bot::Event::MessageType::Image
+				puts "Event type == #{event.type}"
+				puts "Event message == #{event.message}"
+				puts "Event contentProvider == #{event.message['contentProvider']}"
 			end
 		}
 		head :ok
